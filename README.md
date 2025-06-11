@@ -1,73 +1,97 @@
-# Welcome to your Lovable project
 
-## Project info
+# Wadari - Services à domicile au Maroc
 
-**URL**: https://lovable.dev/projects/1dea6268-cfe8-46c6-94df-93ad4e5b5c49
+Wadari est une plateforme moderne pour la réservation de services à domicile au Maroc, inspirée de Wecasa mais adaptée au marché marocain.
 
-## How can I edit this code?
+## 🌟 Fonctionnalités
 
-There are several ways of editing your application.
+### Pour les clients
+- **Réservation facile** : Interface intuitive en quelques clics
+- **Services variés** : Massage, coiffure, ménage, baby-sitting, fitness
+- **Géolocalisation** : Services disponibles à Casablanca, Rabat, Marrakech, Agadir
+- **Professionnels vérifiés** : Tous les prestataires sont contrôlés
+- **Tableau de bord** : Gestion des réservations et historique
 
-**Use Lovable**
+### Pour les prestataires
+- **Inscription simplifiée** : Processus de validation rapide
+- **Gestion des disponibilités** : Planning flexible
+- **Paiements sécurisés** : Règlement en MAD (Dirham marocain)
+- **Tableau de bord professionnel** : Suivi des revenus et réservations
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1dea6268-cfe8-46c6-94df-93ad4e5b5c49) and start prompting.
+## 🚀 Technologies utilisées
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend** : React.js + TypeScript + Vite
+- **Styling** : TailwindCSS + Shadcn/UI
+- **Routing** : React Router
+- **State Management** : TanStack Query
+- **Icons** : Lucide React
+- **Forms** : React Hook Form + Zod
 
-**Use your preferred IDE**
+## 🎨 Design System
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Le design s'inspire de la culture marocaine avec :
+- **Couleurs** : Orange terracotta (#f97316) et ambre (#f59e0b)
+- **Typography** : Police Inter pour la lisibilité
+- **Animations** : Transitions fluides et micro-interactions
+- **Responsive** : Mobile-first design
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📱 Pages principales
 
-Follow these steps:
+1. **Accueil** (`/`) - Hero section, services, témoignages
+2. **Réservation** (`/booking`) - Processus étape par étape
+3. **Tableau de bord** (`/dashboard`) - Gestion client
+4. **Authentification** - Connexion/inscription (à implémenter)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+## 🌍 Localisation
+
+- **Langue principale** : Français
+- **Devise** : MAD (Dirham marocain)
+- **Support RTL** : Préparé pour l'arabe (futur)
+- **Villes couvertes** : Casablanca, Rabat, Marrakech, Agadir
+
+## 📦 Installation
+
+```bash
+# Cloner le repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Installer les dépendances
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Lancer le serveur de développement
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🔮 Fonctionnalités futures
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- [ ] Système d'authentification complet
+- [ ] Paiements en ligne (CMI, Stripe)
+- [ ] Application mobile
+- [ ] Support multilingue (Arabe)
+- [ ] API backend complète
+- [ ] Notifications push
+- [ ] Système de chat en temps réel
+- [ ] Programme de fidélité
 
-**Use GitHub Codespaces**
+## 📝 Notes techniques
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Currency** : Tous les prix sont en MAD
+- **Date format** : Format français (DD/MM/YYYY)
+- **Phone format** : Format marocain (+212 6XX-XXX-XXX)
+- **API Ready** : Structure préparée pour l'intégration backend
 
-## What technologies are used for this project?
+## 🤝 Contribution
 
-This project is built with:
+Le projet est structuré de manière modulaire pour faciliter les contributions :
+- Components réutilisables dans `/src/components`
+- Pages dans `/src/pages`
+- Hooks personnalisés dans `/src/hooks`
+- Utilitaires dans `/src/lib`
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📄 Licence
 
-## How can I deploy this project?
+Ce projet est un prototype créé avec Lovable.dev pour démontrer les capacités de développement web moderne.
 
-Simply open [Lovable](https://lovable.dev/projects/1dea6268-cfe8-46c6-94df-93ad4e5b5c49) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Wadari** - Bringing professional home services to Morocco 🇲🇦
