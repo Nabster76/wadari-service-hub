@@ -14,7 +14,7 @@ const Services = () => {
   const { category } = useParams();
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
-  const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || '');
+  const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || 'all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
 
@@ -83,7 +83,7 @@ const Services = () => {
 
   const filteredServices = services.filter(service => {
     const matchesCategory = !category || service.category === category;
-    const matchesCity = !selectedCity || service.city === selectedCity;
+    const matchesCity = selectedCity === 'all' || service.city === selectedCity;
     return matchesCategory && matchesCity;
   });
 
@@ -124,7 +124,7 @@ const Services = () => {
                     <SelectValue placeholder="Toutes les villes" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Toutes les villes</SelectItem>
+                    <SelectItem value="all">Toutes les villes</SelectItem>
                     {cities.map(city => (
                       <SelectItem key={city.value} value={city.value}>
                         {city.label}
