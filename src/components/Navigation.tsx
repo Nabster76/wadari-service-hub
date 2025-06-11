@@ -1,18 +1,22 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Menu, X, User, Calendar, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
+import LanguageSelector from './LanguageSelector';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const navItems = [
-    { name: 'Services', href: '#services' },
-    { name: 'Comment ça marche', href: '#how-it-works' },
-    { name: 'Devenir prestataire', href: '/provider-signup' },
-    { name: 'Support', href: '/support' }
+    { name: t('services'), href: '/services' },
+    { name: t('howItWorks'), href: '#how-it-works' },
+    { name: t('becomeProvider'), href: '/provider-signup' },
+    { name: t('support'), href: '/faq' }
   ];
 
   return (
@@ -20,33 +24,38 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <div className="text-2xl font-bold text-orange-600">Wadari</div>
             <Badge variant="secondary" className="ml-2 text-xs">Maroc</Badge>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="text-gray-600 hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
-          {/* Desktop Auth Buttons */}
+          {/* Desktop Auth Buttons & Language Selector */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
-              <User className="h-4 w-4 mr-2" />
-              Connexion
-            </Button>
-            <Button className="bg-orange-600 hover:bg-orange-700 text-white">
-              S'inscrire
-            </Button>
+            <LanguageSelector />
+            <Link to="/login">
+              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                <User className="h-4 w-4 mr-2" />
+                {t('login')}
+              </Button>
+            </Link>
+            <Link to="/register">
+              <Button className="bg-orange-600 hover:bg-orange-700 text-white">
+                {t('signup')}
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu */}
@@ -60,23 +69,30 @@ const Navigation = () => {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <div className="flex flex-col space-y-4 mt-8">
                   {navItems.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className="text-gray-600 hover:text-orange-600 font-medium py-2 transition-colors duration-200"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                   <div className="border-t pt-4 space-y-2">
-                    <Button variant="ghost" className="w-full justify-start text-gray-600">
-                      <User className="h-4 w-4 mr-2" />
-                      Connexion
-                    </Button>
-                    <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white">
-                      S'inscrire
-                    </Button>
+                    <div className="mb-4">
+                      <LanguageSelector />
+                    </div>
+                    <Link to="/login" onClick={() => setIsOpen(false)}>
+                      <Button variant="ghost" className="w-full justify-start text-gray-600">
+                        <User className="h-4 w-4 mr-2" />
+                        {t('login')}
+                      </Button>
+                    </Link>
+                    <Link to="/register" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                        {t('signup')}
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </SheetContent>
