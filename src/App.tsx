@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ProviderRegister from "./pages/ProviderRegister";
 import Profile from "./pages/Profile";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/booking" element={<Booking />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/provider/register" element={<ProviderRegister />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
