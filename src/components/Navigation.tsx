@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import LanguageSelector from './LanguageSelector';
+import ThemeToggle from './ThemeToggle';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-background border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -35,18 +36,19 @@ const Navigation = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-gray-600 hover:text-orange-600 font-medium transition-colors duration-200"
+                className="text-muted-foreground hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 {item.name}
               </Link>
             ))}
           </div>
 
-          {/* Desktop Auth Buttons & Language Selector */}
+          {/* Desktop Auth Buttons & Controls */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             <LanguageSelector />
             <Link to="/login">
-              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+              <Button variant="ghost" className="text-muted-foreground hover:text-orange-600">
                 <User className="h-4 w-4 mr-2" />
                 {t('login')}
               </Button>
@@ -72,18 +74,19 @@ const Navigation = () => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className="text-gray-600 hover:text-orange-600 font-medium py-2 transition-colors duration-200"
+                      className="text-muted-foreground hover:text-orange-600 font-medium py-2 transition-colors duration-200"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
                     </Link>
                   ))}
                   <div className="border-t pt-4 space-y-2">
-                    <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <ThemeToggle />
                       <LanguageSelector />
                     </div>
                     <Link to="/login" onClick={() => setIsOpen(false)}>
-                      <Button variant="ghost" className="w-full justify-start text-gray-600">
+                      <Button variant="ghost" className="w-full justify-start text-muted-foreground">
                         <User className="h-4 w-4 mr-2" />
                         {t('login')}
                       </Button>
