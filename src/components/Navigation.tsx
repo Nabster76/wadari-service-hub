@@ -15,7 +15,7 @@ const Navigation = () => {
   const navItems = [
     { name: t('services'), href: '/services' },
     { name: t('howItWorks'), href: '#how-it-works' },
-    { name: t('becomeProvider'), href: '/provider-signup' },
+    { name: t('becomeProvider'), href: '/provider/register' },
     { name: t('support'), href: '/faq' }
   ];
 

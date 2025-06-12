@@ -10,7 +10,10 @@ const LanguageSelector = () => {
 
   const languages = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'ar', name: 'العربية', flag: '🇲🇦' }
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'ar', name: 'العربية', flag: '🇲🇦' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
   ];
 
   const changeLanguage = (langCode: string) => {
@@ -21,7 +24,7 @@ const LanguageSelector = () => {
       document.documentElement.lang = 'ar';
     } else {
       document.documentElement.dir = 'ltr';
-      document.documentElement.lang = 'fr';
+      document.documentElement.lang = langCode;
     }
   };
 
