@@ -75,10 +75,95 @@ const Services = () => {
   ];
 
   const cities = [
-    { value: 'casablanca', label: t('casablanca') },
-    { value: 'rabat', label: t('rabat') },
-    { value: 'marrakech', label: t('marrakech') },
-    { value: 'agadir', label: t('agadir') }
+    // Casablanca-Settat Region
+    { value: 'casablanca', label: t('casablanca'), region: t('casablancaSettatRegion') },
+    { value: 'settat', label: t('settat'), region: t('casablancaSettatRegion') },
+    { value: 'berrechid', label: t('berrechid'), region: t('casablancaSettatRegion') },
+    { value: 'mohammedia', label: t('mohammedia'), region: t('casablancaSettatRegion') },
+    { value: 'jadida', label: t('jadida'), region: t('casablancaSettatRegion') },
+    { value: 'azemmour', label: t('azemmour'), region: t('casablancaSettatRegion') },
+    { value: 'benslimane', label: t('benslimane'), region: t('casablancaSettatRegion') },
+    
+    // Rabat-Salé-Kénitra Region
+    { value: 'rabat', label: t('rabat'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'sale', label: t('sale'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'kenitra', label: t('kenitra'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'temara', label: t('temara'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'skhirat', label: t('skhirat'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'khemisset', label: t('khemisset'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'sidi-kacem', label: t('sidiKacem'), region: t('rabatSaleKenitiraRegion') },
+    
+    // Marrakech-Safi Region
+    { value: 'marrakech', label: t('marrakech'), region: t('marrakechSafiRegion') },
+    { value: 'safi', label: t('safi'), region: t('marrakechSafiRegion') },
+    { value: 'essaouira', label: t('essaouira'), region: t('marrakechSafiRegion') },
+    { value: 'youssoufia', label: t('youssoufia'), region: t('marrakechSafiRegion') },
+    { value: 'chichaoua', label: t('chichaoua'), region: t('marrakechSafiRegion') },
+    { value: 'kelaa-sraghna', label: t('kelaaSraghna'), region: t('marrakechSafiRegion') },
+    
+    // Fès-Meknès Region
+    { value: 'fes', label: t('fes'), region: t('fesMeknesRegion') },
+    { value: 'meknes', label: t('meknes'), region: t('fesMeknesRegion') },
+    { value: 'taza', label: t('taza'), region: t('fesMeknesRegion') },
+    { value: 'sefrou', label: t('sefrou'), region: t('fesMeknesRegion') },
+    { value: 'ifrane', label: t('ifrane'), region: t('fesMeknesRegion') },
+    { value: 'taounate', label: t('taounate'), region: t('fesMeknesRegion') },
+    { value: 'moulay-yacoub', label: t('moulayYacoub'), region: t('fesMeknesRegion') },
+    
+    // Tanger-Tétouan-Al Hoceïma Region
+    { value: 'tangier', label: t('tangier'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'tetouan', label: t('tetouan'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'al-hoceima', label: t('alHoceima'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'larache', label: t('larache'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'asilah', label: t('asilah'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'chefchaouen', label: t('chefchaouen'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'ouazzane', label: t('ouazzane'), region: t('tangerTetouanAlHoceimaRegion') },
+    
+    // Oriental Region
+    { value: 'oujda', label: t('oujda'), region: t('orientalRegion') },
+    { value: 'nador', label: t('nador'), region: t('orientalRegion') },
+    { value: 'berkane', label: t('berkane'), region: t('orientalRegion') },
+    { value: 'taourirt', label: t('taourirt'), region: t('orientalRegion') },
+    { value: 'jerada', label: t('jerada'), region: t('orientalRegion') },
+    { value: 'bouarfa', label: t('bouarfa'), region: t('orientalRegion') },
+    { value: 'figuig', label: t('figuig'), region: t('orientalRegion') },
+    
+    // Souss-Massa Region
+    { value: 'agadir', label: t('agadir'), region: t('soussMassaRegion') },
+    { value: 'inezgane', label: t('inezgane'), region: t('soussMassaRegion') },
+    { value: 'tiznit', label: t('tiznit'), region: t('soussMassaRegion') },
+    { value: 'taroudant', label: t('taroudant'), region: t('soussMassaRegion') },
+    { value: 'ouarzazate', label: t('ouarzazate'), region: t('soussMassaRegion') },
+    { value: 'zagora', label: t('zagora'), region: t('soussMassaRegion') },
+    
+    // Béni Mellal-Khénifra Region
+    { value: 'beni-mellal', label: t('beniMellal'), region: t('beniMellalKheniframRegion') },
+    { value: 'khenifra', label: t('khenifra'), region: t('beniMellalKheniframRegion') },
+    { value: 'khouribga', label: t('khouribga'), region: t('beniMellalKheniframRegion') },
+    { value: 'fqih-ben-salah', label: t('fqihBenSalah'), region: t('beniMellalKheniframRegion') },
+    { value: 'azilal', label: t('azilal'), region: t('beniMellalKheniframRegion') },
+    
+    // Drâa-Tafilalet Region
+    { value: 'errachidia', label: t('errachidia'), region: t('draaTafilaletRegion') },
+    { value: 'midelt', label: t('midelt'), region: t('draaTafilaletRegion') },
+    { value: 'tinghir', label: t('tinghir'), region: t('draaTafilaletRegion') },
+    { value: 'rissani', label: t('rissani'), region: t('draaTafilaletRegion') },
+    { value: 'erfoud', label: t('erfoud'), region: t('draaTafilaletRegion') },
+    
+    // Laâyoune-Sakia El Hamra Region
+    { value: 'laayoune', label: t('laayoune'), region: t('laayouneSakiaElHamraRegion') },
+    { value: 'boujdour', label: t('boujdour'), region: t('laayouneSakiaElHamraRegion') },
+    { value: 'tarfaya', label: t('tarfaya'), region: t('laayouneSakiaElHamraRegion') },
+    
+    // Dakhla-Oued Ed-Dahab Region
+    { value: 'dakhla', label: t('dakhla'), region: t('dakhlaOuedEdDahabRegion') },
+    { value: 'aousserd', label: t('aousserd'), region: t('dakhlaOuedEdDahabRegion') },
+    
+    // Guelmim-Oued Noun Region
+    { value: 'guelmim', label: t('guelmim'), region: t('guelmimOuedNounRegion') },
+    { value: 'tan-tan', label: t('tanTan'), region: t('guelmimOuedNounRegion') },
+    { value: 'sidi-ifni', label: t('sidiIfni'), region: t('guelmimOuedNounRegion') },
+    { value: 'assa-zag', label: t('assaZag'), region: t('guelmimOuedNounRegion') }
   ];
 
   const filteredServices = services.filter(service => {
@@ -123,11 +208,14 @@ const Services = () => {
                   <SelectTrigger>
                     <SelectValue placeholder="Toutes les villes" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-[200px] overflow-y-auto">
                     <SelectItem value="all">Toutes les villes</SelectItem>
                     {cities.map(city => (
                       <SelectItem key={city.value} value={city.value}>
-                        {city.label}
+                        <div className="flex flex-col">
+                          <span>{city.label}</span>
+                          <span className="text-xs text-muted-foreground">{city.region}</span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
