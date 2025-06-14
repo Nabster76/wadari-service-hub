@@ -30,119 +30,43 @@ const resources = {
       fitness: 'Fitness',
       fitnessDesc: 'Coach sportif personnel à domicile',
       
-      // Common
+      // Booking
       book: 'Réserver',
+      booking: 'Réservation',
+      selectService: 'Choisir un service',
+      selectDate: 'Choisir une date',
+      selectTime: 'Choisir une heure',
+      confirmBooking: 'Confirmer la réservation',
+      bookingSuccess: 'Réservation confirmée !',
+      bookingConfirmed: 'Réservation confirmée',
+      bookingDetails: 'Détails de la réservation',
+      service: 'Service',
+      date: 'Date',
+      time: 'Heure',
+      location: 'Localisation',
+      total: 'Total',
+      
+      // Common
       price: 'Prix',
       duration: 'Durée',
       providers: 'prestataires',
       from: 'À partir de',
-      
-      // Regions
-      casablancaSettatRegion: 'Région Casablanca-Settat',
-      rabatSaleKenitiraRegion: 'Région Rabat-Salé-Kénitra',
-      marrakechSafiRegion: 'Région Marrakech-Safi',
-      fesMeknesRegion: 'Région Fès-Meknès',
-      tangerTetouanAlHoceimaRegion: 'Région Tanger-Tétouan-Al Hoceïma',
-      orientalRegion: 'Région de l\'Oriental',
-      soussMassaRegion: 'Région Souss-Massa',
-      beniMellalKheniframRegion: 'Région Béni Mellal-Khénifra',
-      draaTafilaletRegion: 'Région Drâa-Tafilalet',
-      laayouneSakiaElHamraRegion: 'Région Laâyoune-Sakia El Hamra',
-      dakhlaOuedEdDahabRegion: 'Région Dakhla-Oued Ed-Dahab',
-      guelmimOuedNounRegion: 'Région Guelmim-Oued Noun',
-      
-      // Casablanca-Settat Cities
-      casablanca: 'Casablanca',
-      settat: 'Settat',
-      berrechid: 'Berrechid',
-      mohammedia: 'Mohammedia',
-      jadida: 'El Jadida',
-      azemmour: 'Azemmour',
-      benslimane: 'Benslimane',
-      
-      // Rabat-Salé-Kénitra Cities
-      rabat: 'Rabat',
-      sale: 'Salé',
-      kenitra: 'Kénitra',
-      temara: 'Témara',
-      skhirat: 'Skhirat',
-      khemisset: 'Khémisset',
-      sidiKacem: 'Sidi Kacem',
-      
-      // Marrakech-Safi Cities
-      marrakech: 'Marrakech',
-      safi: 'Safi',
-      essaouira: 'Essaouira',
-      youssoufia: 'Youssoufia',
-      chichaoua: 'Chichaoua',
-      kelaaSraghna: 'Kelâa des Sraghna',
-      
-      // Fès-Meknès Cities
-      fes: 'Fès',
-      meknes: 'Meknès',
-      taza: 'Taza',
-      sefrou: 'Sefrou',
-      ifrane: 'Ifrane',
-      taounate: 'Taounate',
-      moulayYacoub: 'Moulay Yacoub',
-      
-      // Tanger-Tétouan-Al Hoceïma Cities
-      tangier: 'Tanger',
-      tetouan: 'Tétouan',
-      alHoceima: 'Al Hoceïma',
-      larache: 'Larache',
-      asilah: 'Asilah',
-      chefchaouen: 'Chefchaouen',
-      ouazzane: 'Ouazzane',
-      
-      // Oriental Cities
-      oujda: 'Oujda',
-      nador: 'Nador',
-      berkane: 'Berkane',
-      taourirt: 'Taourirt',
-      jerada: 'Jerada',
-      bouarfa: 'Bouarfa',
-      figuig: 'Figuig',
-      
-      // Souss-Massa Cities
-      agadir: 'Agadir',
-      inezgane: 'Inezgane',
-      tiznit: 'Tiznit',
-      taroudant: 'Taroudant',
-      ouarzazate: 'Ouarzazate',
-      zagora: 'Zagora',
-      
-      // Béni Mellal-Khénifra Cities
-      beniMellal: 'Béni Mellal',
-      khenifra: 'Khénifra',
-      khouribga: 'Khouribga',
-      fqihBenSalah: 'Fqih Ben Salah',
-      azilal: 'Azilal',
-      
-      // Drâa-Tafilalet Cities
-      errachidia: 'Errachidia',
-      midelt: 'Midelt',
-      tinghir: 'Tinghir',
-      rissani: 'Rissani',
-      erfoud: 'Erfoud',
-      
-      // Laâyoune-Sakia El Hamra Cities
-      laayoune: 'Laâyoune',
-      boujdour: 'Boujdour',
-      tarfaya: 'Tarfaya',
-      
-      // Dakhla-Oued Ed-Dahab Cities
-      dakhla: 'Dakhla',
-      aousserd: 'Aousserd',
-      
-      // Guelmim-Oued Noun Cities
-      guelmim: 'Guelmim',
-      tanTan: 'Tan-Tan',
-      sidiIfni: 'Sidi Ifni',
-      assaZag: 'Assa-Zag',
+      available: 'disponibles',
+      filters: 'Filtres',
+      sort: 'Trier par',
+      all: 'Tous',
+      allServices: 'Tous les services',
+      allCities: 'Toutes les villes',
+      allPrices: 'Tous les prix',
+      rating: 'Note',
+      availability: 'Disponibilité',
+      noResults: 'Aucun résultat trouvé',
+      tryDifferentFilters: 'Essayez de modifier vos filtres ou choisissez une autre ville.',
       
       // Forms
       name: 'Nom',
+      firstName: 'Prénom',
+      lastName: 'Nom de famille',
       email: 'Email',
       password: 'Mot de passe',
       confirmPassword: 'Confirmer le mot de passe',
@@ -151,13 +75,22 @@ const resources = {
       city: 'Ville',
       submit: 'Envoyer',
       save: 'Sauvegarder',
+      next: 'Suivant',
+      previous: 'Précédent',
+      cancel: 'Annuler',
+      notes: 'Notes',
+      optional: 'optionnel',
+      required: 'requis',
       
-      // Booking
-      selectService: 'Choisir un service',
-      selectDate: 'Choisir une date',
-      selectTime: 'Choisir une heure',
-      confirmBooking: 'Confirmer la réservation',
-      bookingSuccess: 'Réservation confirmée !',
+      // Steps
+      step: 'Étape',
+      of: 'sur',
+      
+      // Errors and messages
+      error: 'Erreur',
+      success: 'Succès',
+      loading: 'Chargement...',
+      pleaseWait: 'Veuillez patienter...',
       
       // Profile
       profile: 'Profil',
@@ -173,7 +106,89 @@ const resources = {
       
       // FAQ
       faq: 'Questions fréquentes',
-      faqTitle: 'Aide et support'
+      faqTitle: 'Aide et support',
+      
+      // ... keep existing code (all regions and cities)
+      casablancaSettatRegion: 'Région Casablanca-Settat',
+      rabatSaleKenitiraRegion: 'Région Rabat-Salé-Kénitra',
+      marrakechSafiRegion: 'Région Marrakech-Safi',
+      fesMeknesRegion: 'Région Fès-Meknès',
+      tangerTetouanAlHoceimaRegion: 'Région Tanger-Tétouan-Al Hoceïma',
+      orientalRegion: 'Région de l\'Oriental',
+      soussMassaRegion: 'Région Souss-Massa',
+      beniMellalKheniframRegion: 'Région Béni Mellal-Khénifra',
+      draaTafilaletRegion: 'Région Drâa-Tafilalet',
+      laayouneSakiaElHamraRegion: 'Région Laâyoune-Sakia El Hamra',
+      dakhlaOuedEdDahabRegion: 'Région Dakhla-Oued Ed-Dahab',
+      guelmimOuedNounRegion: 'Région Guelmim-Oued Noun',
+      
+      // Cities
+      casablanca: 'Casablanca',
+      settat: 'Settat',
+      berrechid: 'Berrechid',
+      mohammedia: 'Mohammedia',
+      jadida: 'El Jadida',
+      azemmour: 'Azemmour',
+      benslimane: 'Benslimane',
+      rabat: 'Rabat',
+      sale: 'Salé',
+      kenitra: 'Kénitra',
+      temara: 'Témara',
+      skhirat: 'Skhirat',
+      khemisset: 'Khémisset',
+      sidiKacem: 'Sidi Kacem',
+      marrakech: 'Marrakech',
+      safi: 'Safi',
+      essaouira: 'Essaouira',
+      youssoufia: 'Youssoufia',
+      chichaoua: 'Chichaoua',
+      kelaaSraghna: 'Kelâa des Sraghna',
+      fes: 'Fès',
+      meknes: 'Meknès',
+      taza: 'Taza',
+      sefrou: 'Sefrou',
+      ifrane: 'Ifrane',
+      taounate: 'Taounate',
+      moulayYacoub: 'Moulay Yacoub',
+      tangier: 'Tanger',
+      tetouan: 'Tétouan',
+      alHoceima: 'Al Hoceïma',
+      larache: 'Larache',
+      asilah: 'Asilah',
+      chefchaouen: 'Chefchaouen',
+      ouazzane: 'Ouazzane',
+      oujda: 'Oujda',
+      nador: 'Nador',
+      berkane: 'Berkane',
+      taourirt: 'Taourirt',
+      jerada: 'Jerada',
+      bouarfa: 'Bouarfa',
+      figuig: 'Figuig',
+      agadir: 'Agadir',
+      inezgane: 'Inezgane',
+      tiznit: 'Tiznit',
+      taroudant: 'Taroudant',
+      ouarzazate: 'Ouarzazate',
+      zagora: 'Zagora',
+      beniMellal: 'Béni Mellal',
+      khenifra: 'Khénifra',
+      khouribga: 'Khouribga',
+      fqihBenSalah: 'Fqih Ben Salah',
+      azilal: 'Azilal',
+      errachidia: 'Errachidia',
+      midelt: 'Midelt',
+      tinghir: 'Tinghir',
+      rissani: 'Rissani',
+      erfoud: 'Erfoud',
+      laayoune: 'Laâyoune',
+      boujdour: 'Boujdour',
+      tarfaya: 'Tarfaya',
+      dakhla: 'Dakhla',
+      aousserd: 'Aousserd',
+      guelmim: 'Guelmim',
+      tanTan: 'Tan-Tan',
+      sidiIfni: 'Sidi Ifni',
+      assaZag: 'Assa-Zag'
     }
   },
   en: {
@@ -204,12 +219,83 @@ const resources = {
       fitness: 'Fitness',
       fitnessDesc: 'Personal trainer at home',
       
-      // Common
+      // Booking
       book: 'Book',
+      booking: 'Booking',
+      selectService: 'Select a service',
+      selectDate: 'Select a date',
+      selectTime: 'Select a time',
+      confirmBooking: 'Confirm booking',
+      bookingSuccess: 'Booking confirmed!',
+      bookingConfirmed: 'Booking confirmed',
+      bookingDetails: 'Booking details',
+      service: 'Service',
+      date: 'Date',
+      time: 'Time',
+      location: 'Location',
+      total: 'Total',
+      
+      // Common
       price: 'Price',
       duration: 'Duration',
       providers: 'providers',
       from: 'From',
+      available: 'available',
+      filters: 'Filters',
+      sort: 'Sort by',
+      all: 'All',
+      allServices: 'All services',
+      allCities: 'All cities',
+      allPrices: 'All prices',
+      rating: 'Rating',
+      availability: 'Availability',
+      noResults: 'No results found',
+      tryDifferentFilters: 'Try adjusting your filters or choose a different city.',
+      
+      // Forms
+      name: 'Name',
+      firstName: 'First name',
+      lastName: 'Last name',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm password',
+      phone: 'Phone',
+      address: 'Address',
+      city: 'City',
+      submit: 'Submit',
+      save: 'Save',
+      next: 'Next',
+      previous: 'Previous',
+      cancel: 'Cancel',
+      notes: 'Notes',
+      optional: 'optional',
+      required: 'required',
+      
+      // Steps
+      step: 'Step',
+      of: 'of',
+      
+      // Errors and messages
+      error: 'Error',
+      success: 'Success',
+      loading: 'Loading...',
+      pleaseWait: 'Please wait...',
+      
+      // Profile
+      profile: 'Profile',
+      editProfile: 'Edit profile',
+      myBookings: 'My bookings',
+      settings: 'Settings',
+      
+      // Contact
+      contact: 'Contact',
+      contactUs: 'Contact us',
+      message: 'Message',
+      subject: 'Subject',
+      
+      // FAQ
+      faq: 'FAQ',
+      faqTitle: 'Help and support',
       
       // Regions
       casablancaSettatRegion: 'Casablanca-Settat Region',
@@ -291,41 +377,7 @@ const resources = {
       guelmim: 'Guelmim',
       tanTan: 'Tan-Tan',
       sidiIfni: 'Sidi Ifni',
-      assaZag: 'Assa-Zag',
-      
-      // Forms
-      name: 'Name',
-      email: 'Email',
-      password: 'Password',
-      confirmPassword: 'Confirm password',
-      phone: 'Phone',
-      address: 'Address',
-      city: 'City',
-      submit: 'Submit',
-      save: 'Save',
-      
-      // Booking
-      selectService: 'Select a service',
-      selectDate: 'Select a date',
-      selectTime: 'Select a time',
-      confirmBooking: 'Confirm booking',
-      bookingSuccess: 'Booking confirmed!',
-      
-      // Profile
-      profile: 'Profile',
-      editProfile: 'Edit profile',
-      myBookings: 'My bookings',
-      settings: 'Settings',
-      
-      // Contact
-      contact: 'Contact',
-      contactUs: 'Contact us',
-      message: 'Message',
-      subject: 'Subject',
-      
-      // FAQ
-      faq: 'FAQ',
-      faqTitle: 'Help and support'
+      assaZag: 'Assa-Zag'
     }
   },
   ar: {
@@ -356,12 +408,83 @@ const resources = {
       fitness: 'اللياقة البدنية',
       fitnessDesc: 'مدرب رياضي شخصي في المنزل',
       
-      // Common
+      // Booking
       book: 'احجز',
+      booking: 'الحجز',
+      selectService: 'اختر خدمة',
+      selectDate: 'اختر تاريخ',
+      selectTime: 'اختر وقت',
+      confirmBooking: 'تأكيد الحجز',
+      bookingSuccess: 'تم تأكيد الحجز!',
+      bookingConfirmed: 'تم تأكيد الحجز',
+      bookingDetails: 'تفاصيل الحجز',
+      service: 'الخدمة',
+      date: 'التاريخ',
+      time: 'الوقت',
+      location: 'الموقع',
+      total: 'المجموع',
+      
+      // Common
       price: 'السعر',
       duration: 'المدة',
       providers: 'مقدمو الخدمة',
       from: 'ابتداء من',
+      available: 'متوفر',
+      filters: 'المرشحات',
+      sort: 'ترتيب حسب',
+      all: 'الكل',
+      allServices: 'جميع الخدمات',
+      allCities: 'جميع المدن',
+      allPrices: 'جميع الأسعار',
+      rating: 'التقييم',
+      availability: 'التوفر',
+      noResults: 'لا توجد نتائج',
+      tryDifferentFilters: 'جرب تعديل المرشحات أو اختر مدينة أخرى.',
+      
+      // Forms
+      name: 'الاسم',
+      firstName: 'الاسم الأول',
+      lastName: 'اسم العائلة',
+      email: 'البريد الإلكتروني',
+      password: 'كلمة المرور',
+      confirmPassword: 'تأكيد كلمة المرور',
+      phone: 'الهاتف',
+      address: 'العنوان',
+      city: 'المدينة',
+      submit: 'إرسال',
+      save: 'حفظ',
+      next: 'التالي',
+      previous: 'السابق',
+      cancel: 'إلغاء',
+      notes: 'ملاحظات',
+      optional: 'اختياري',
+      required: 'مطلوب',
+      
+      // Steps
+      step: 'الخطوة',
+      of: 'من',
+      
+      // Errors and messages
+      error: 'خطأ',
+      success: 'نجح',
+      loading: 'جارٍ التحميل...',
+      pleaseWait: 'يرجى الانتظار...',
+      
+      // Profile
+      profile: 'الملف الشخصي',
+      editProfile: 'تعديل الملف الشخصي',
+      myBookings: 'حجوزاتي',
+      settings: 'الإعدادات',
+      
+      // Contact
+      contact: 'الاتصال',
+      contactUs: 'اتصل بنا',
+      message: 'الرسالة',
+      subject: 'الموضوع',
+      
+      // FAQ
+      faq: 'الأسئلة الشائعة',
+      faqTitle: 'المساعدة والدعم',
       
       // Regions
       casablancaSettatRegion: 'جهة الدار البيضاء-سطات',
@@ -443,41 +566,7 @@ const resources = {
       guelmim: 'كلميم',
       tanTan: 'طانطان',
       sidiIfni: 'سيدي إفني',
-      assaZag: 'أسا الزاك',
-      
-      // Forms
-      name: 'الاسم',
-      email: 'البريد الإلكتروني',
-      password: 'كلمة المرور',
-      confirmPassword: 'تأكيد كلمة المرور',
-      phone: 'الهاتف',
-      address: 'العنوان',
-      city: 'المدينة',
-      submit: 'إرسال',
-      save: 'حفظ',
-      
-      // Booking
-      selectService: 'اختر خدمة',
-      selectDate: 'اختر تاريخ',
-      selectTime: 'اختر وقت',
-      confirmBooking: 'تأكيد الحجز',
-      bookingSuccess: 'تم تأكيد الحجز!',
-      
-      // Profile
-      profile: 'الملف الشخصي',
-      editProfile: 'تعديل الملف الشخصي',
-      myBookings: 'حجوزاتي',
-      settings: 'الإعدادات',
-      
-      // Contact
-      contact: 'الاتصال',
-      contactUs: 'اتصل بنا',
-      message: 'الرسالة',
-      subject: 'الموضوع',
-      
-      // FAQ
-      faq: 'الأسئلة الشائعة',
-      faqTitle: 'المساعدة والدعم'
+      assaZag: 'أسا الزاك'
     }
   },
   es: {
@@ -508,21 +597,43 @@ const resources = {
       fitness: 'Fitness',
       fitnessDesc: 'Entrenador personal a domicilio',
       
-      // Common
+      // Booking
       book: 'Reservar',
+      booking: 'Reserva',
+      selectService: 'Seleccionar un servicio',
+      selectDate: 'Seleccionar una fecha',
+      selectTime: 'Seleccionar una hora',
+      confirmBooking: 'Confirmar reserva',
+      bookingSuccess: '¡Reserva confirmada!',
+      bookingConfirmed: 'Reserva confirmada',
+      bookingDetails: 'Detalles de la reserva',
+      service: 'Servicio',
+      date: 'Fecha',
+      time: 'Hora',
+      location: 'Ubicación',
+      total: 'Total',
+      
+      // Common
       price: 'Precio',
       duration: 'Duración',
       providers: 'proveedores',
       from: 'Desde',
-      
-      // Cities (use English names for Spanish)
-      casablanca: 'Casablanca',
-      rabat: 'Rabat',
-      marrakech: 'Marrakech',
-      agadir: 'Agadir',
+      available: 'disponibles',
+      filters: 'Filtros',
+      sort: 'Ordenar por',
+      all: 'Todos',
+      allServices: 'Todos los servicios',
+      allCities: 'Todas las ciudades',
+      allPrices: 'Todos los precios',
+      rating: 'Calificación',
+      availability: 'Disponibilidad',
+      noResults: 'No se encontraron resultados',
+      tryDifferentFilters: 'Pruebe ajustar sus filtros o elija una ciudad diferente.',
       
       // Forms
       name: 'Nombre',
+      firstName: 'Nombre',
+      lastName: 'Apellido',
       email: 'Email',
       password: 'Contraseña',
       confirmPassword: 'Confirmar contraseña',
@@ -531,13 +642,22 @@ const resources = {
       city: 'Ciudad',
       submit: 'Enviar',
       save: 'Guardar',
+      next: 'Siguiente',
+      previous: 'Anterior',
+      cancel: 'Cancelar',
+      notes: 'Notas',
+      optional: 'opcional',
+      required: 'requerido',
       
-      // Booking
-      selectService: 'Seleccionar un servicio',
-      selectDate: 'Seleccionar una fecha',
-      selectTime: 'Seleccionar una hora',
-      confirmBooking: 'Confirmar reserva',
-      bookingSuccess: '¡Reserva confirmada!',
+      // Steps
+      step: 'Paso',
+      of: 'de',
+      
+      // Errors and messages
+      error: 'Error',
+      success: 'Éxito',
+      loading: 'Cargando...',
+      pleaseWait: 'Por favor espere...',
       
       // Profile
       profile: 'Perfil',
@@ -553,7 +673,17 @@ const resources = {
       
       // FAQ
       faq: 'Preguntas frecuentes',
-      faqTitle: 'Ayuda y soporte'
+      faqTitle: 'Ayuda y soporte',
+      
+      // Cities (simplified for Spanish)
+      casablanca: 'Casablanca',
+      rabat: 'Rabat',
+      marrakech: 'Marrakech',
+      agadir: 'Agadir',
+      fes: 'Fez',
+      meknes: 'Meknes',
+      tangier: 'Tánger',
+      oujda: 'Oujda'
     }
   },
   de: {
@@ -584,21 +714,43 @@ const resources = {
       fitness: 'Fitness',
       fitnessDesc: 'Personal Trainer zu Hause',
       
-      // Common
+      // Booking
       book: 'Buchen',
+      booking: 'Buchung',
+      selectService: 'Service auswählen',
+      selectDate: 'Datum auswählen',
+      selectTime: 'Zeit auswählen',
+      confirmBooking: 'Buchung bestätigen',
+      bookingSuccess: 'Buchung bestätigt!',
+      bookingConfirmed: 'Buchung bestätigt',
+      bookingDetails: 'Buchungsdetails',
+      service: 'Service',
+      date: 'Datum',
+      time: 'Zeit',
+      location: 'Standort',
+      total: 'Gesamt',
+      
+      // Common
       price: 'Preis',
       duration: 'Dauer',
       providers: 'Anbieter',
       from: 'Ab',
-      
-      // Cities (use English names for German)
-      casablanca: 'Casablanca',
-      rabat: 'Rabat',
-      marrakech: 'Marrakesch',
-      agadir: 'Agadir',
+      available: 'verfügbar',
+      filters: 'Filter',
+      sort: 'Sortieren nach',
+      all: 'Alle',
+      allServices: 'Alle Services',
+      allCities: 'Alle Städte',
+      allPrices: 'Alle Preise',
+      rating: 'Bewertung',
+      availability: 'Verfügbarkeit',
+      noResults: 'Keine Ergebnisse gefunden',
+      tryDifferentFilters: 'Versuchen Sie, Ihre Filter anzupassen oder wählen Sie eine andere Stadt.',
       
       // Forms
       name: 'Name',
+      firstName: 'Vorname',
+      lastName: 'Nachname',
       email: 'E-Mail',
       password: 'Passwort',
       confirmPassword: 'Passwort bestätigen',
@@ -607,13 +759,22 @@ const resources = {
       city: 'Stadt',
       submit: 'Senden',
       save: 'Speichern',
+      next: 'Weiter',
+      previous: 'Zurück',
+      cancel: 'Abbrechen',
+      notes: 'Notizen',
+      optional: 'optional',
+      required: 'erforderlich',
       
-      // Booking
-      selectService: 'Service auswählen',
-      selectDate: 'Datum auswählen',
-      selectTime: 'Zeit auswählen',
-      confirmBooking: 'Buchung bestätigen',
-      bookingSuccess: 'Buchung bestätigt!',
+      // Steps
+      step: 'Schritt',
+      of: 'von',
+      
+      // Errors and messages
+      error: 'Fehler',
+      success: 'Erfolg',
+      loading: 'Lädt...',
+      pleaseWait: 'Bitte warten...',
       
       // Profile
       profile: 'Profil',
@@ -629,7 +790,17 @@ const resources = {
       
       // FAQ
       faq: 'Häufig gestellte Fragen',
-      faqTitle: 'Hilfe und Support'
+      faqTitle: 'Hilfe und Support',
+      
+      // Cities (simplified for German)
+      casablanca: 'Casablanca',
+      rabat: 'Rabat',
+      marrakech: 'Marrakesch',
+      agadir: 'Agadir',
+      fes: 'Fez',
+      meknes: 'Meknes',
+      tangier: 'Tanger',
+      oujda: 'Oujda'
     }
   }
 };

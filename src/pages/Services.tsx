@@ -1,13 +1,14 @@
 
-import React, { useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { MapPin, Star, Filter } from 'lucide-react';
+import { MapPin, Star, Filter, Search } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import ServiceCard from '@/components/ServiceCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Services = () => {
@@ -17,14 +18,16 @@ const Services = () => {
   const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || 'all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Mock services data - would come from API
   const services = [
     {
       id: 1,
-      name: 'Massage Relaxant',
-      description: 'Massage complet pour détente et bien-être',
+      name: t('massage'),
+      description: t('massageDesc'),
       price: '250 MAD',
+      priceValue: 250,
       duration: '60 min',
       icon: '💆‍♀️',
       image: '/placeholder.svg',
@@ -38,6 +41,7 @@ const Services = () => {
       name: 'Massage Thérapeutique',
       description: 'Massage pour soulager tensions et douleurs',
       price: '300 MAD',
+      priceValue: 300,
       duration: '75 min',
       icon: '🧘‍♀️',
       image: '/placeholder.svg',
@@ -48,9 +52,10 @@ const Services = () => {
     },
     {
       id: 3,
-      name: 'Coupe & Brushing',
-      description: 'Coupe moderne et mise en forme',
+      name: t('coiffure'),
+      description: t('coiffureDesc'),
       price: '150 MAD',
+      priceValue: 150,
       duration: '45 min',
       icon: '✂️',
       image: '/placeholder.svg',
@@ -61,9 +66,10 @@ const Services = () => {
     },
     {
       id: 4,
-      name: 'Ménage Complet',
-      description: 'Nettoyage complet de votre logement',
+      name: t('menage'),
+      description: t('menageDesc'),
       price: '200 MAD',
+      priceValue: 200,
       duration: '3h',
       icon: '🧽',
       image: '/placeholder.svg',
@@ -71,145 +77,151 @@ const Services = () => {
       providers: 35,
       category: 'menage',
       city: 'marrakech'
+    },
+    {
+      id: 5,
+      name: t('fitness'),
+      description: t('fitnessDesc'),
+      price: '180 MAD',
+      priceValue: 180,
+      duration: '60 min',
+      icon: '💪',
+      image: '/placeholder.svg',
+      rating: 4.5,
+      providers: 12,
+      category: 'fitness',
+      city: 'agadir'
+    },
+    {
+      id: 6,
+      name: t('babysitting'),
+      description: t('babysittingDesc'),
+      price: '120 MAD',
+      priceValue: 120,
+      duration: '4h',
+      icon: '👶',
+      image: '/placeholder.svg',
+      rating: 4.8,
+      providers: 18,
+      category: 'babysitting',
+      city: 'fes'
     }
   ];
 
   const cities = [
-    // Casablanca-Settat Region
     { value: 'casablanca', label: t('casablanca'), region: t('casablancaSettatRegion') },
-    { value: 'settat', label: t('settat'), region: t('casablancaSettatRegion') },
-    { value: 'berrechid', label: t('berrechid'), region: t('casablancaSettatRegion') },
-    { value: 'mohammedia', label: t('mohammedia'), region: t('casablancaSettatRegion') },
-    { value: 'jadida', label: t('jadida'), region: t('casablancaSettatRegion') },
-    { value: 'azemmour', label: t('azemmour'), region: t('casablancaSettatRegion') },
-    { value: 'benslimane', label: t('benslimane'), region: t('casablancaSettatRegion') },
-    
-    // Rabat-Salé-Kénitra Region
     { value: 'rabat', label: t('rabat'), region: t('rabatSaleKenitiraRegion') },
+    { value: 'marrakech', label: t('marrakech'), region: t('marrakechSafiRegion') },
+    { value: 'agadir', label: t('agadir'), region: t('soussMassaRegion') },
+    { value: 'fes', label: t('fes'), region: t('fesMeknesRegion') },
+    { value: 'tangier', label: t('tangier'), region: t('tangerTetouanAlHoceimaRegion') },
+    { value: 'meknes', label: t('meknes'), region: t('fesMeknesRegion') },
     { value: 'sale', label: t('sale'), region: t('rabatSaleKenitiraRegion') },
     { value: 'kenitra', label: t('kenitra'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'temara', label: t('temara'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'skhirat', label: t('skhirat'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'khemisset', label: t('khemisset'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'sidi-kacem', label: t('sidiKacem'), region: t('rabatSaleKenitiraRegion') },
-    
-    // Marrakech-Safi Region
-    { value: 'marrakech', label: t('marrakech'), region: t('marrakechSafiRegion') },
-    { value: 'safi', label: t('safi'), region: t('marrakechSafiRegion') },
-    { value: 'essaouira', label: t('essaouira'), region: t('marrakechSafiRegion') },
-    { value: 'youssoufia', label: t('youssoufia'), region: t('marrakechSafiRegion') },
-    { value: 'chichaoua', label: t('chichaoua'), region: t('marrakechSafiRegion') },
-    { value: 'kelaa-sraghna', label: t('kelaaSraghna'), region: t('marrakechSafiRegion') },
-    
-    // Fès-Meknès Region
-    { value: 'fes', label: t('fes'), region: t('fesMeknesRegion') },
-    { value: 'meknes', label: t('meknes'), region: t('fesMeknesRegion') },
-    { value: 'taza', label: t('taza'), region: t('fesMeknesRegion') },
-    { value: 'sefrou', label: t('sefrou'), region: t('fesMeknesRegion') },
-    { value: 'ifrane', label: t('ifrane'), region: t('fesMeknesRegion') },
-    { value: 'taounate', label: t('taounate'), region: t('fesMeknesRegion') },
-    { value: 'moulay-yacoub', label: t('moulayYacoub'), region: t('fesMeknesRegion') },
-    
-    // Tanger-Tétouan-Al Hoceïma Region
-    { value: 'tangier', label: t('tangier'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'tetouan', label: t('tetouan'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'al-hoceima', label: t('alHoceima'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'larache', label: t('larache'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'asilah', label: t('asilah'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'chefchaouen', label: t('chefchaouen'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'ouazzane', label: t('ouazzane'), region: t('tangerTetouanAlHoceimaRegion') },
-    
-    // Oriental Region
-    { value: 'oujda', label: t('oujda'), region: t('orientalRegion') },
-    { value: 'nador', label: t('nador'), region: t('orientalRegion') },
-    { value: 'berkane', label: t('berkane'), region: t('orientalRegion') },
-    { value: 'taourirt', label: t('taourirt'), region: t('orientalRegion') },
-    { value: 'jerada', label: t('jerada'), region: t('orientalRegion') },
-    { value: 'bouarfa', label: t('bouarfa'), region: t('orientalRegion') },
-    { value: 'figuig', label: t('figuig'), region: t('orientalRegion') },
-    
-    // Souss-Massa Region
-    { value: 'agadir', label: t('agadir'), region: t('soussMassaRegion') },
-    { value: 'inezgane', label: t('inezgane'), region: t('soussMassaRegion') },
-    { value: 'tiznit', label: t('tiznit'), region: t('soussMassaRegion') },
-    { value: 'taroudant', label: t('taroudant'), region: t('soussMassaRegion') },
-    { value: 'ouarzazate', label: t('ouarzazate'), region: t('soussMassaRegion') },
-    { value: 'zagora', label: t('zagora'), region: t('soussMassaRegion') },
-    
-    // Béni Mellal-Khénifra Region
-    { value: 'beni-mellal', label: t('beniMellal'), region: t('beniMellalKheniframRegion') },
-    { value: 'khenifra', label: t('khenifra'), region: t('beniMellalKheniframRegion') },
-    { value: 'khouribga', label: t('khouribga'), region: t('beniMellalKheniframRegion') },
-    { value: 'fqih-ben-salah', label: t('fqihBenSalah'), region: t('beniMellalKheniframRegion') },
-    { value: 'azilal', label: t('azilal'), region: t('beniMellalKheniframRegion') },
-    
-    // Drâa-Tafilalet Region
-    { value: 'errachidia', label: t('errachidia'), region: t('draaTafilaletRegion') },
-    { value: 'midelt', label: t('midelt'), region: t('draaTafilaletRegion') },
-    { value: 'tinghir', label: t('tinghir'), region: t('draaTafilaletRegion') },
-    { value: 'rissani', label: t('rissani'), region: t('draaTafilaletRegion') },
-    { value: 'erfoud', label: t('erfoud'), region: t('draaTafilaletRegion') },
-    
-    // Laâyoune-Sakia El Hamra Region
-    { value: 'laayoune', label: t('laayoune'), region: t('laayouneSakiaElHamraRegion') },
-    { value: 'boujdour', label: t('boujdour'), region: t('laayouneSakiaElHamraRegion') },
-    { value: 'tarfaya', label: t('tarfaya'), region: t('laayouneSakiaElHamraRegion') },
-    
-    // Dakhla-Oued Ed-Dahab Region
-    { value: 'dakhla', label: t('dakhla'), region: t('dakhlaOuedEdDahabRegion') },
-    { value: 'aousserd', label: t('aousserd'), region: t('dakhlaOuedEdDahabRegion') },
-    
-    // Guelmim-Oued Noun Region
-    { value: 'guelmim', label: t('guelmim'), region: t('guelmimOuedNounRegion') },
-    { value: 'tan-tan', label: t('tanTan'), region: t('guelmimOuedNounRegion') },
-    { value: 'sidi-ifni', label: t('sidiIfni'), region: t('guelmimOuedNounRegion') },
-    { value: 'assa-zag', label: t('assaZag'), region: t('guelmimOuedNounRegion') }
+    { value: 'oujda', label: t('oujda'), region: t('orientalRegion') }
   ];
 
-  const filteredServices = services.filter(service => {
-    const matchesCategory = !category || service.category === category;
-    const matchesCity = selectedCity === 'all' || service.city === selectedCity;
-    return matchesCategory && matchesCity;
-  });
+  const filteredAndSortedServices = useMemo(() => {
+    let filtered = services.filter(service => {
+      const matchesCategory = !category || service.category === category;
+      const matchesCity = selectedCity === 'all' || service.city === selectedCity;
+      const matchesSearch = searchTerm === '' || 
+        service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesPrice = priceRange === 'all' || 
+        (priceRange === '0-200' && service.priceValue <= 200) ||
+        (priceRange === '200-400' && service.priceValue > 200 && service.priceValue <= 400) ||
+        (priceRange === '400+' && service.priceValue > 400);
+      
+      return matchesCategory && matchesCity && matchesSearch && matchesPrice;
+    });
+
+    // Sort services
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'price':
+          return a.priceValue - b.priceValue;
+        case 'providers':
+          return b.providers - a.providers;
+        case 'rating':
+        default:
+          return b.rating - a.rating;
+      }
+    });
+
+    return filtered;
+  }, [services, category, selectedCity, searchTerm, priceRange, sortBy]);
 
   const getCategoryTitle = () => {
-    if (!category) return 'Tous les services';
+    if (!category) return t('allServices');
     return t(category);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="flex items-center gap-2 mb-4">
+            <Link to="/" className="text-orange-600 hover:text-orange-700 text-sm">
+              Wadari
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">{t('services')}</span>
+            {category && (
+              <>
+                <span className="text-gray-400">/</span>
+                <span className="text-sm text-gray-900 dark:text-gray-100">{t(category)}</span>
+              </>
+            )}
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {getCategoryTitle()}
           </h1>
-          <p className="text-gray-600">
-            {filteredServices.length} services disponibles
+          <p className="text-gray-600 dark:text-gray-400">
+            {filteredAndSortedServices.length} {t('services').toLowerCase()} {t('available')}
           </p>
         </div>
 
-        {/* Filters */}
-        <Card className="mb-8">
+        {/* Search and Filters */}
+        <Card className="mb-8 shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Filter className="h-5 w-5" />
-              Filtres
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Filter className="h-5 w-5 text-orange-600" />
+              {t('filters')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Search */}
               <div>
-                <label className="block text-sm font-medium mb-2">Ville</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  {t('searchButton')}
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder={t('searchPlaceholder')}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+
+              {/* City Filter */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  {t('city')}
+                </label>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Toutes les villes" />
+                    <SelectValue placeholder={t('allCities')} />
                   </SelectTrigger>
-                  <SelectContent className="max-h-[200px] overflow-y-auto">
-                    <SelectItem value="all">Toutes les villes</SelectItem>
+                  <SelectContent className="max-h-[200px] overflow-y-auto bg-white dark:bg-gray-800">
+                    <SelectItem value="all">{t('allCities')}</SelectItem>
                     {cities.map(city => (
                       <SelectItem key={city.value} value={city.value}>
                         <div className="flex flex-col">
@@ -222,14 +234,17 @@ const Services = () => {
                 </Select>
               </div>
               
+              {/* Price Filter */}
               <div>
-                <label className="block text-sm font-medium mb-2">Prix</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  {t('price')}
+                </label>
                 <Select value={priceRange} onValueChange={setPriceRange}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tous les prix</SelectItem>
+                  <SelectContent className="bg-white dark:bg-gray-800">
+                    <SelectItem value="all">{t('allPrices')}</SelectItem>
                     <SelectItem value="0-200">0 - 200 MAD</SelectItem>
                     <SelectItem value="200-400">200 - 400 MAD</SelectItem>
                     <SelectItem value="400+">400+ MAD</SelectItem>
@@ -237,16 +252,19 @@ const Services = () => {
                 </Select>
               </div>
               
+              {/* Sort */}
               <div>
-                <label className="block text-sm font-medium mb-2">Trier par</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  {t('sort')}
+                </label>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rating">Note</SelectItem>
-                    <SelectItem value="price">Prix</SelectItem>
-                    <SelectItem value="providers">Disponibilité</SelectItem>
+                  <SelectContent className="bg-white dark:bg-gray-800">
+                    <SelectItem value="rating">{t('rating')}</SelectItem>
+                    <SelectItem value="price">{t('price')}</SelectItem>
+                    <SelectItem value="providers">{t('availability')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -255,21 +273,32 @@ const Services = () => {
         </Card>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map(service => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
-        </div>
-
-        {filteredServices.length === 0 && (
-          <div className="text-center py-12">
+        {filteredAndSortedServices.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredAndSortedServices.map(service => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16">
             <div className="text-gray-400 text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Aucun service trouvé
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {t('noResults')}
             </h3>
-            <p className="text-gray-600">
-              Essayez de modifier vos filtres ou choisissez une autre ville.
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              {t('tryDifferentFilters')}
             </p>
+            <Button
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCity('all');
+                setPriceRange('all');
+              }}
+              variant="outline"
+              className="border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20"
+            >
+              Réinitialiser les filtres
+            </Button>
           </div>
         )}
       </div>
