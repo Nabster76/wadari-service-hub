@@ -1,7 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, Mail, Phone, MapPin, Lock, Calendar, Star } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Lock, Calendar, Star, Loader } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,18 +9,39 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/hooks/useAuth';
 
 const Profile = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { user, profile, updateProfile, loading: authLoading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: 'Ahmed',
-    lastName: 'Bennani',
-    email: 'ahmed.bennani@email.com',
-    phone: '+212 6XX-XXX-XXX',
-    city: 'casablanca',
-    address: '123 Rue Mohammed V, Casablanca'
+    first_name: '',
+    last_name: '',
+    phone: '',
+    city: ''
   });
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth');
+    }
+  }, [user, authLoading, navigate]);
+
+  // Update form data when profile loads
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        first_name: profile.first_name || '',
+        last_name: profile.last_name || '',
+        phone: profile.phone || '',
+        city: profile.city || ''
+      });
+    }
+  }, [profile]);
 
   // Mock bookings data
   const bookings = [
@@ -56,10 +77,15 @@ const Profile = () => {
     }
   ];
 
-  const handleSave = () => {
-    console.log('Saving profile:', formData);
-    setIsEditing(false);
-    // TODO: Implement actual save logic
+  const handleSave = async () => {
+    setIsLoading(true);
+    const { error } = await updateProfile(formData);
+    
+    if (!error) {
+      setIsEditing(false);
+    }
+    
+    setIsLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +107,18 @@ const Profile = () => {
         return <Badge variant="outline">{status}</Badge>;
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader className="h-8 w-8 animate-spin text-orange-600" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -116,8 +154,16 @@ const Profile = () => {
                     <Button
                       onClick={() => isEditing ? handleSave() : setIsEditing(true)}
                       className="bg-orange-600 hover:bg-orange-700"
+                      disabled={isLoading}
                     >
-                      {isEditing ? 'Sauvegarder' : 'Modifier'}
+                      {isLoading ? (
+                        <>
+                          <Loader className="mr-2 h-4 w-4 animate-spin" />
+                          Sauvegarde...
+                        </>
+                      ) : (
+                        isEditing ? 'Sauvegarder' : 'Modifier'
+                      )}
                     </Button>
                   </div>
                 </CardHeader>
@@ -125,21 +171,21 @@ const Profile = () => {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">Prénom</Label>
+                      <Label htmlFor="first_name">Prénom</Label>
                       <Input
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
+                        id="first_name"
+                        name="first_name"
+                        value={formData.first_name}
                         onChange={handleChange}
                         disabled={!isEditing}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Nom</Label>
+                      <Label htmlFor="last_name">Nom</Label>
                       <Input
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
+                        id="last_name"
+                        name="last_name"
+                        value={formData.last_name}
                         onChange={handleChange}
                         disabled={!isEditing}
                       />
@@ -155,10 +201,11 @@ const Profile = () => {
                       id="email"
                       name="email"
                       type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      disabled={!isEditing}
+                      value={user.email || ''}
+                      disabled={true}
+                      className="bg-gray-100"
                     />
+                    <p className="text-sm text-gray-500">L'email ne peut pas être modifié</p>
                   </div>
 
                   <div className="space-y-2">
@@ -172,20 +219,22 @@ const Profile = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       disabled={!isEditing}
+                      placeholder="+212 6XX-XXX-XXX"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="address" className="flex items-center gap-2">
+                    <Label htmlFor="city" className="flex items-center gap-2">
                       <MapPin className="h-4 w-4" />
-                      Adresse
+                      Ville
                     </Label>
                     <Input
-                      id="address"
-                      name="address"
-                      value={formData.address}
+                      id="city"
+                      name="city"
+                      value={formData.city}
                       onChange={handleChange}
                       disabled={!isEditing}
+                      placeholder="Casablanca"
                     />
                   </div>
                 </CardContent>
