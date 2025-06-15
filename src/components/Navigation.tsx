@@ -2,23 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, User, Calendar, Settings, LogIn, UserPlus, ChevronDown, LogOut } from 'lucide-react';
+import { Menu, X, User, Calendar, Settings, LogIn, UserPlus, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
-import { useAuth } from '@/hooks/useAuth';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t } = useTranslation();
   const location = useLocation();
-  const { user, profile, signOut, loading } = useAuth();
 
   const navItems = [
     { name: t('services'), href: '/services', icon: Calendar },
@@ -44,24 +40,6 @@ const Navigation = () => {
   const isActiveRoute = (href: string) => {
     if (href.startsWith('#')) return false;
     return location.pathname === href;
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
-  const getUserDisplayName = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name} ${profile.last_name}`;
-    }
-    return user?.email?.split('@')[0] || 'Utilisateur';
-  };
-
-  const getUserInitials = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
-    }
-    return user?.email?.[0]?.toUpperCase() || 'U';
   };
 
   return (
@@ -152,47 +130,22 @@ const Navigation = () => {
 
                     {/* Auth Buttons */}
                     <div className="space-y-3 pt-4 border-t border-border/50">
-                      {user ? (
-                        <>
-                          <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                            <Button 
-                              variant="outline" 
-                              className="w-full h-12 text-base font-medium border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-300 dark:hover:border-orange-700"
-                            >
-                              <User className="h-5 w-5 mr-3" />
-                              Dashboard
-                            </Button>
-                          </Link>
-                          
-                          <Button 
-                            onClick={handleSignOut}
-                            variant="outline"
-                            className="w-full h-12 text-base font-medium border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-300 dark:hover:border-red-700 text-red-600 dark:text-red-400"
-                          >
-                            <LogOut className="h-5 w-5 mr-3" />
-                            Déconnexion
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Link to="/auth" onClick={() => setIsOpen(false)}>
-                            <Button 
-                              variant="outline" 
-                              className="w-full h-12 text-base font-medium border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-300 dark:hover:border-orange-700"
-                            >
-                              <LogIn className="h-5 w-5 mr-3" />
-                              {t('login')}
-                            </Button>
-                          </Link>
-                          
-                          <Link to="/auth" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full h-12 text-base font-medium bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all">
-                              <UserPlus className="h-5 w-5 mr-3" />
-                              {t('signup')}
-                            </Button>
-                          </Link>
-                        </>
-                      )}
+                      <Link to="/login" onClick={() => setIsOpen(false)}>
+                        <Button 
+                          variant="outline" 
+                          className="w-full h-12 text-base font-medium border-orange-200 dark:border-orange-800 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:border-orange-300 dark:hover:border-orange-700"
+                        >
+                          <LogIn className="h-5 w-5 mr-3" />
+                          {t('login')}
+                        </Button>
+                      </Link>
+                      
+                      <Link to="/register" onClick={() => setIsOpen(false)}>
+                        <Button className="w-full h-12 text-base font-medium bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all">
+                          <UserPlus className="h-5 w-5 mr-3" />
+                          {t('signup')}
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </DrawerContent>
@@ -234,64 +187,18 @@ const Navigation = () => {
             <div className="flex items-center space-x-3">
               <ThemeToggle />
               <LanguageSelector />
-              
-              {!loading && (
-                user ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage src="/placeholder.svg" alt={getUserDisplayName()} />
-                          <AvatarFallback className="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200">
-                            {getUserInitials()}
-                          </AvatarFallback>
-                        </Avatar>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" align="end" forceMount>
-                      <div className="flex flex-col space-y-1 p-2">
-                        <p className="text-sm font-medium leading-none">{getUserDisplayName()}</p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                          {user.email}
-                        </p>
-                      </div>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                        <Link to="/dashboard" className="cursor-pointer">
-                          <User className="mr-2 h-4 w-4" />
-                          Dashboard
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link to="/profile" className="cursor-pointer">
-                          <Settings className="mr-2 h-4 w-4" />
-                          Profil
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600 focus:text-red-600">
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Déconnexion
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <>
-                    <Link to="/auth">
-                      <Button variant="ghost" className="text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20">
-                        <LogIn className="h-4 w-4 mr-2" />
-                        {t('login')}
-                      </Button>
-                    </Link>
-                    <Link to="/auth">
-                      <Button className="bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all">
-                        <UserPlus className="h-4 w-4 mr-2" />
-                        {t('signup')}
-                      </Button>
-                    </Link>
-                  </>
-                )
-              )}
+              <Link to="/login">
+                <Button variant="ghost" className="text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  {t('login')}
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button className="bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all">
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  {t('signup')}
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MapPin, Star, Settings, User, LogOut, CreditCard, Bell, Loader } from 'lucide-react';
+
+import React, { useState } from 'react';
+import { Calendar, Clock, MapPin, Star, Settings, User, LogOut, CreditCard, Bell } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Navigation from '@/components/Navigation';
-import { useAuth } from '@/hooks/useAuth';
 
 const mockBookings = [
   {
@@ -43,16 +42,7 @@ const mockBookings = [
 ];
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { user, profile, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('bookings');
-
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -67,32 +57,6 @@ const Dashboard = () => {
     }
   };
 
-  const getUserDisplayName = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name} ${profile.last_name}`;
-    }
-    return user?.email?.split('@')[0] || 'Utilisateur';
-  };
-
-  const getUserInitials = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
-    }
-    return user?.email?.[0]?.toUpperCase() || 'U';
-  };
-
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader className="h-8 w-8 animate-spin text-orange-600" />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -103,7 +67,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Mon tableau de bord</h1>
-              <p className="text-gray-600">Bonjour {profile?.first_name || user.email?.split('@')[0]}, gérez vos réservations et votre profil</p>
+              <p className="text-gray-600">Gérez vos réservations et votre profil</p>
             </div>
             <div className="flex items-center space-x-4">
               <Button variant="outline" size="sm">
@@ -112,7 +76,7 @@ const Dashboard = () => {
               </Button>
               <Avatar>
                 <AvatarImage src="/placeholder.svg" alt="User" />
-                <AvatarFallback className="bg-orange-100 text-orange-600">{getUserInitials()}</AvatarFallback>
+                <AvatarFallback className="bg-orange-100 text-orange-600">JD</AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -270,18 +234,15 @@ const Dashboard = () => {
                   <div className="flex items-center space-x-4">
                     <Avatar className="h-20 w-20">
                       <AvatarImage src="/placeholder.svg" alt="User" />
-                      <AvatarFallback className="bg-orange-100 text-orange-600 text-2xl">{getUserInitials()}</AvatarFallback>
+                      <AvatarFallback className="bg-orange-100 text-orange-600 text-2xl">JD</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h3 className="text-lg font-medium">{getUserDisplayName()}</h3>
-                      <p className="text-gray-600">{user.email}</p>
-                      {profile?.phone && <p className="text-gray-600">{profile.phone}</p>}
-                      {profile?.city && <p className="text-gray-600">{profile.city}</p>}
+                      <h3 className="text-lg font-medium">John Doe</h3>
+                      <p className="text-gray-600">john.doe@email.com</p>
+                      <p className="text-gray-600">+212 6XX-XXX-XXX</p>
                     </div>
                   </div>
-                  <Button variant="outline" onClick={() => navigate('/profile')}>
-                    Modifier le profil
-                  </Button>
+                  <Button variant="outline">Modifier le profil</Button>
                 </CardContent>
               </Card>
             </TabsContent>
