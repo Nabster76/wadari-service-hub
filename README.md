@@ -3,6 +3,26 @@
 
 Wadari est une plateforme moderne pour la réservation de services à domicile au Maroc, inspirée de Wecasa mais adaptée au marché marocain.
 
+## 🚀 Améliorations récentes
+
+### Architecture et Performance
+- **Centralisation des constantes** : Toutes les données statiques (villes, services, etc.) sont maintenant centralisées
+- **Validation robuste** : Intégration de Zod pour la validation des formulaires avec des schémas réutilisables
+- **Hooks personnalisés** : `useLocalStorage`, `useDebounce` pour une meilleure UX
+- **Gestion d'erreurs** : ErrorBoundary global pour capturer et gérer les erreurs
+- **Composants réutilisables** : LoadingSpinner, ImageWithFallback, SearchFilters
+
+### UX/UI Améliorations
+- **Recherche en temps réel** : Debounced search pour une meilleure performance
+- **Filtres avancés** : Interface de filtrage améliorée avec reset et compteur de résultats
+- **Images optimisées** : Fallback automatique et états de chargement
+- **Formatage cohérent** : Prix, dates, et numéros de téléphone formatés selon les standards marocains
+
+### Sécurité et Validation
+- **Validation côté client** : Schémas Zod pour tous les formulaires
+- **Regex marocains** : Validation spécifique pour les numéros de téléphone marocains
+- **Sanitisation des données** : Nettoyage automatique des entrées utilisateur
+
 ## 🌟 Fonctionnalités
 
 ### Pour les clients
@@ -62,6 +82,33 @@ npm install
 npm run dev
 ```
 
+## 🔧 Scripts disponibles
+
+```bash
+npm run dev          # Serveur de développement
+npm run build        # Build de production
+npm run build:dev    # Build de développement
+npm run preview      # Prévisualisation du build
+npm run lint         # Linting du code
+```
+
+## 📁 Structure du projet
+
+```
+src/
+├── components/          # Composants réutilisables
+│   ├── ui/             # Composants UI de base
+│   └── ...             # Composants métier
+├── hooks/              # Hooks personnalisés
+├── lib/                # Utilitaires et configuration
+│   ├── constants.ts    # Constantes centralisées
+│   ├── validation.ts   # Schémas de validation
+│   ├── formatters.ts   # Fonctions de formatage
+│   └── ...
+├── pages/              # Pages de l'application
+└── ...
+```
+
 ## 🔮 Fonctionnalités futures
 
 - [ ] Système d'authentification complet
@@ -72,6 +119,10 @@ npm run dev
 - [ ] Notifications push
 - [ ] Système de chat en temps réel
 - [ ] Programme de fidélité
+- [ ] Tests unitaires et d'intégration
+- [ ] PWA (Progressive Web App)
+- [ ] Optimisation SEO avancée
+- [ ] Analytics et tracking
 
 ## 📝 Notes techniques
 

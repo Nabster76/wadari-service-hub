@@ -9,6 +9,13 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { userRegistrationSchema } from '@/lib/validation';
+import { z } from 'zod';
+
+const loginSchema = z.object({
+  email: z.string().email('Email invalide').min(1, 'Email requis'),
+  password: z.string().min(1, 'Mot de passe requis')
+});
 
 const Login = () => {
   const { t } = useTranslation();
@@ -23,22 +30,22 @@ const Login = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email requis';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email invalide';
+    try {
+      loginSchema.parse(formData);
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            newErrors[err.path[0] as string] = err.message;
+          }
+        });
+        setErrors(newErrors);
+      }
+      return false;
     }
-
-    if (!formData.password) {
-      newErrors.password = 'Mot de passe requis';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

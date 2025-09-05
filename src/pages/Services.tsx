@@ -2,23 +2,27 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { MapPin, Star, Filter, Search } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import ServiceCard from '@/components/ServiceCard';
+import { SearchFilters } from '@/components/SearchFilters';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useDebounce } from '@/hooks/useDebounce';
+import { SERVICE_CATEGORIES } from '@/lib/constants';
 
 const Services = () => {
   const { category } = useParams();
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || 'all');
+  const [selectedCategory, setSelectedCategory] = useState(category || 'all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
   const [searchTerm, setSearchTerm] = useState('');
+  
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   // Mock services data - would come from API
   const services = [
@@ -34,7 +38,8 @@ const Services = () => {
       rating: 4.8,
       providers: 15,
       category: 'massage',
-      city: 'casablanca'
+      city: 'casablanca',
+      priceValue: 250
     },
     {
       id: 2,
@@ -48,7 +53,8 @@ const Services = () => {
       rating: 4.9,
       providers: 8,
       category: 'massage',
-      city: 'rabat'
+      city: 'rabat',
+      priceValue: 300
     },
     {
       id: 3,
@@ -62,7 +68,8 @@ const Services = () => {
       rating: 4.7,
       providers: 22,
       category: 'coiffure',
-      city: 'casablanca'
+      city: 'casablanca',
+      priceValue: 150
     },
     {
       id: 4,
@@ -76,7 +83,8 @@ const Services = () => {
       rating: 4.6,
       providers: 35,
       category: 'menage',
-      city: 'marrakech'
+      city: 'marrakech',
+      priceValue: 200
     },
     {
       id: 5,
@@ -90,7 +98,8 @@ const Services = () => {
       rating: 4.5,
       providers: 12,
       category: 'fitness',
-      city: 'agadir'
+      city: 'agadir',
+      priceValue: 180
     },
     {
       id: 6,
@@ -104,34 +113,23 @@ const Services = () => {
       rating: 4.8,
       providers: 18,
       category: 'babysitting',
-      city: 'fes'
+      city: 'fes',
+      priceValue: 120
     }
-  ];
-
-  const cities = [
-    { value: 'casablanca', label: t('casablanca'), region: t('casablancaSettatRegion') },
-    { value: 'rabat', label: t('rabat'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'marrakech', label: t('marrakech'), region: t('marrakechSafiRegion') },
-    { value: 'agadir', label: t('agadir'), region: t('soussMassaRegion') },
-    { value: 'fes', label: t('fes'), region: t('fesMeknesRegion') },
-    { value: 'tangier', label: t('tangier'), region: t('tangerTetouanAlHoceimaRegion') },
-    { value: 'meknes', label: t('meknes'), region: t('fesMeknesRegion') },
-    { value: 'sale', label: t('sale'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'kenitra', label: t('kenitra'), region: t('rabatSaleKenitiraRegion') },
-    { value: 'oujda', label: t('oujda'), region: t('orientalRegion') }
   ];
 
   const filteredAndSortedServices = useMemo(() => {
     let filtered = services.filter(service => {
-      const matchesCategory = !category || service.category === category;
+      const matchesCategory = selectedCategory === 'all' || service.category === selectedCategory;
       const matchesCity = selectedCity === 'all' || service.city === selectedCity;
-      const matchesSearch = searchTerm === '' || 
-        service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        service.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = debouncedSearchTerm === '' || 
+        service.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        service.description.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
       const matchesPrice = priceRange === 'all' || 
-        (priceRange === '0-200' && service.priceValue <= 200) ||
-        (priceRange === '200-400' && service.priceValue > 200 && service.priceValue <= 400) ||
-        (priceRange === '400+' && service.priceValue > 400);
+        (priceRange === '0-150' && (service.priceValue || 0) <= 150) ||
+        (priceRange === '150-300' && (service.priceValue || 0) > 150 && (service.priceValue || 0) <= 300) ||
+        (priceRange === '300-500' && (service.priceValue || 0) > 300 && (service.priceValue || 0) <= 500) ||
+        (priceRange === '500+' && (service.priceValue || 0) > 500);
       
       return matchesCategory && matchesCity && matchesSearch && matchesPrice;
     });
@@ -140,9 +138,11 @@ const Services = () => {
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'price':
-          return a.priceValue - b.priceValue;
+          return (a.priceValue || 0) - (b.priceValue || 0);
         case 'providers':
           return b.providers - a.providers;
+        case 'popularity':
+          return (b.rating * b.providers) - (a.rating * a.providers);
         case 'rating':
         default:
           return b.rating - a.rating;
@@ -150,11 +150,20 @@ const Services = () => {
     });
 
     return filtered;
-  }, [services, category, selectedCity, searchTerm, priceRange, sortBy]);
+  }, [services, selectedCategory, selectedCity, debouncedSearchTerm, priceRange, sortBy]);
+
+  const handleReset = () => {
+    setSearchTerm('');
+    setSelectedCity('all');
+    setSelectedCategory('all');
+    setPriceRange('all');
+    setSortBy('rating');
+  };
 
   const getCategoryTitle = () => {
-    if (!category) return t('allServices');
-    return t(category);
+    if (selectedCategory === 'all') return t('allServices');
+    const categoryData = SERVICE_CATEGORIES.find(cat => cat.id === selectedCategory);
+    return categoryData ? categoryData.name : t('allServices');
   };
 
   return (
@@ -170,10 +179,10 @@ const Services = () => {
             </Link>
             <span className="text-gray-400">/</span>
             <span className="text-sm text-gray-600 dark:text-gray-400">{t('services')}</span>
-            {category && (
+            {selectedCategory !== 'all' && (
               <>
                 <span className="text-gray-400">/</span>
-                <span className="text-sm text-gray-900 dark:text-gray-100">{t(category)}</span>
+                <span className="text-sm text-gray-900 dark:text-gray-100">{getCategoryTitle()}</span>
               </>
             )}
           </div>
@@ -186,102 +195,41 @@ const Services = () => {
         </div>
 
         {/* Search and Filters */}
-        <Card className="mb-8 shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Filter className="h-5 w-5 text-orange-600" />
-              {t('filters')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Search */}
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                  {t('searchButton')}
-                </label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder={t('searchPlaceholder')}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </div>
 
-              {/* City Filter */}
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                  {t('city')}
-                </label>
-                <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t('allCities')} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[200px] overflow-y-auto bg-white dark:bg-gray-800">
-                    <SelectItem value="all">{t('allCities')}</SelectItem>
-                    {cities.map(city => (
-                      <SelectItem key={city.value} value={city.value}>
-                        <div className="flex flex-col">
-                          <span>{city.label}</span>
-                          <span className="text-xs text-muted-foreground">{city.region}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              {/* Price Filter */}
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                  {t('price')}
-                </label>
-                <Select value={priceRange} onValueChange={setPriceRange}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800">
-                    <SelectItem value="all">{t('allPrices')}</SelectItem>
-                    <SelectItem value="0-200">0 - 200 MAD</SelectItem>
-                    <SelectItem value="200-400">200 - 400 MAD</SelectItem>
-                    <SelectItem value="400+">400+ MAD</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              {/* Sort */}
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                  {t('sort')}
-                </label>
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800">
-                    <SelectItem value="rating">{t('rating')}</SelectItem>
-                    <SelectItem value="price">{t('price')}</SelectItem>
-                    <SelectItem value="providers">{t('availability')}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="mb-8">
+          <SearchFilters
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            selectedCity={selectedCity}
+            onCityChange={setSelectedCity}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            priceRange={priceRange}
+            onPriceRangeChange={setPriceRange}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            onReset={handleReset}
+            resultsCount={filteredAndSortedServices.length}
+          />
+        </div>
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center py-16">
+            <LoadingSpinner size="lg" />
+          </div>
+        )}
 
         {/* Services Grid */}
-        {filteredAndSortedServices.length > 0 ? (
+        {!isLoading && filteredAndSortedServices.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredAndSortedServices.map(service => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
-        ) : (
+        ) : !isLoading && (
           <div className="text-center py-16">
-            <div className="text-gray-400 text-6xl mb-4">🔍</div>
+            <AlertCircle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               {t('noResults')}
             </h3>
@@ -289,11 +237,7 @@ const Services = () => {
               {t('tryDifferentFilters')}
             </p>
             <Button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCity('all');
-                setPriceRange('all');
-              }}
+              onClick={handleReset}
               variant="outline"
               className="border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20"
             >

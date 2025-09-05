@@ -2,10 +2,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Star, Clock, Users, ArrowRight } from 'lucide-react';
+import { Star, Clock, Users, ArrowRight, MapPin } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { ImageWithFallback } from '@/components/ui/image-with-fallback';
+import { formatPrice } from '@/lib/formatters';
 
 interface Service {
   id: number;
@@ -19,6 +21,7 @@ interface Service {
   providers: number;
   category?: string;
   city?: string;
+  priceValue?: number;
 }
 
 interface ServiceCardProps {
@@ -31,7 +34,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   return (
     <Card className="group border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white dark:bg-gray-800 overflow-hidden hover:-translate-y-2">
       <div className="relative overflow-hidden">
-        <img 
+        <ImageWithFallback
           src={service.image} 
           alt={service.name}
           className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
@@ -79,13 +82,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
             </div>
           </div>
           
+          {service.city && (
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+              <MapPin className="h-4 w-4 mr-2" />
+              {service.city}
+            </div>
+          )}
+          
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 {t('from')}
               </div>
               <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                {service.price}
+                {service.priceValue ? formatPrice(service.priceValue) : service.price}
               </div>
             </div>
             
@@ -94,9 +104,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
               className="inline-block"
             >
               <Button 
-                className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold group/btn shadow-lg hover:shadow-xl transition-all"
+                className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold group/btn shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+                disabled={service.providers === 0}
               >
-                {t('book')}
+                {service.providers === 0 ? 'Indisponible' : t('book')}
                 <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
               </Button>
             </Link>
